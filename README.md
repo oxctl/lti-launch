@@ -4,7 +4,7 @@ LTI Launch is a project designed to assist in the development of Java based LTI 
 
 ### Build
 
-[![Build Status](https://travis-ci.org/oxctl/lti-launch.svg?branch=master)](https://travis-ci.org/oxctl/lti-launch)
+[![Java CI with Maven](https://github.com/oxctl/lti-launch/actions/workflows/maven.yml/badge.svg)](https://github.com/oxctl/lti-launch/actions/workflows/maven.yml)
 
 ### Technologies Used
 - Java 8
