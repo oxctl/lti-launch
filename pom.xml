@@ -181,7 +181,7 @@
                 <!-- We need to lock down all the spring JARs so that the oauth1 support doesn't pull them back -->
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-framework-bom</artifactId>
-                <version>5.1.13.RELEASE</version>
+                <version>5.1.18.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
