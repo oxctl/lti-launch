@@ -1,0 +1,57 @@
+package edu.ksu.lti.launch.model;
+
+// The LTI post requests contains most of these parameters, depending on the platform
+
+public enum LtiRequestParams {
+
+    oauth_consumer_key,
+    oauth_signature_method,
+    oauth_timestamp,
+    oauth_nonce,
+    oauth_version,
+    context_id,
+    context_label,
+    context_title,
+    ext_roles,
+    launch_presentation_document_target,
+    launch_presentation_height,
+    launch_presentation_locale,
+    launch_presentation_return_url,
+    launch_presentation_width,
+    lis_person_contact_email_primary,
+    lis_person_name_family,
+    lis_person_name_full,
+    lis_person_name_given,
+    lis_person_sourcedid,
+    lti_message_type,
+    lti_version,
+    oauth_callback,
+    resource_link_id,
+    resource_link_title,
+    roles,
+    tool_consumer_info_product_family_code,
+    tool_consumer_info_version,
+    tool_consumer_instance_contact_email,
+    tool_consumer_instance_guid,
+    tool_consumer_instance_name,
+    user_id,
+    user_image,
+    oauth_signature,
+    resource_link_description,
+    context_type,
+    lis_course_section_sourcedid,
+    lis_result_sourcedid,
+    lis_outcome_service_url,
+    ext_user_username,
+    ext_lms,
+    tool_consumer_instance_description,
+    // Canvas specific
+    custom_canvas_api_domain,
+    custom_canvas_course_id,
+    custom_canvas_enrollment_state,
+    custom_canvas_user_id,
+    custom_canvas_user_login_id,
+    custom_canvas_workflow_state,
+    custom_canvas_user_isrootaccountadmin;
+
+}

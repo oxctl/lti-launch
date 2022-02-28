@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class to hold the POST data from a Canvas LTI launch request. Uses custom property values to map from request names.
+ * Class to hold the POST data from a LTI launch request. Uses custom property values to map from request names.
  */
 public class LtiLaunchData {
 
@@ -34,10 +34,7 @@ public class LtiLaunchData {
     private String lisPersonContactEmailPrimary;
     private String lisPersonNameGiven;
     private String launchPresentationLocale;
-
     private Map<String, String> custom = new HashMap<>();
-
-
     // computed from a CSV list in the "roles" string
     private List<InstitutionRole> rolesList;
 
@@ -256,4 +253,5 @@ public class LtiLaunchData {
     public void setRolesList(List<InstitutionRole> rolesList) {
         this.rolesList = rolesList;
     }
+
 }

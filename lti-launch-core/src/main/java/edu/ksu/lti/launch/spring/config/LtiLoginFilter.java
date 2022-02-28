@@ -3,6 +3,8 @@ package edu.ksu.lti.launch.spring.config;
 import edu.ksu.lti.launch.beans.LtiLaunchPropertyValues;
 import edu.ksu.lti.launch.model.InstitutionRole;
 import edu.ksu.lti.launch.model.LtiLaunchData;
+import edu.ksu.lti.launch.model.LtiProductFamilyCode;
+import edu.ksu.lti.launch.model.LtiRequestParams;
 import edu.ksu.lti.launch.model.LtiSession;
 import edu.ksu.lti.launch.oauth.LtiPrincipal;
 import edu.ksu.lti.launch.service.LtiLoginService;
@@ -26,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.springframework.util.StringUtils.parseLocale;
 
@@ -68,15 +72,38 @@ public class LtiLoginFilter implements Filter {
                 DataBinder dataBinder = new DataBinder(launchData);
                 dataBinder.bind(propertyValues);
                 // This should be done with a custom databinder really.
-                String rolesParam = request.getParameter("roles");
+                String rolesParam = request.getParameter(LtiRequestParams.roles.name());
                 if (rolesParam != null) {
                     launchData.setRolesList(getInstitutionRoles(rolesParam));
                 }
                 LtiSession ltiSession = new LtiSession(launchData);
+
+                // Depending on the platform the course and the user are in different parameters, provide specific variables to the LtiSession.
+                String toolConsumerInfoProductFamilyCode = request.getParameter(LtiRequestParams.tool_consumer_info_product_family_code.name());
+                List<String> supportedProductFamilyCodeList = Stream.of(LtiProductFamilyCode.values())
+                        .map(Enum::name)
+                        .collect(Collectors.toList());
+                if (supportedProductFamilyCodeList.contains(toolConsumerInfoProductFamilyCode)) {
+                    LtiProductFamilyCode ltiProductFamilyCode = LtiProductFamilyCode.valueOf(toolConsumerInfoProductFamilyCode);
+                    if (ltiProductFamilyCode != null) {
+                        switch (ltiProductFamilyCode) {
+                            case canvas:
+                                ltiSession.setCanvasCourseId(launchData.getCustom().get("canvas_course_id"));
+                                ltiSession.setCanvasDomain(launchData.getCustom().get("canvas_api_domain"));
+                                ltiSession.setEid(launchData.getCustom().get("canvas_user_login_id"));
+                                break;
+                            case moodle:
+                                ltiSession.setMoodleCourseId(launchData.getContextId());
+                                ltiSession.setMoodleDomain(launchData.getToolConsumerInstanceGuid());
+                                ltiSession.setEid(request.getParameter(LtiRequestParams.ext_user_username.name()));
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+
                 ltiSession.setApplicationName(((LtiPrincipal) principal).getTenant());
-                ltiSession.setCanvasCourseId(launchData.getCustom().get("canvas_course_id"));
-                ltiSession.setCanvasDomain(launchData.getCustom().get("canvas_api_domain"));
-                ltiSession.setEid(launchData.getCustom().get("canvas_user_login_id"));
                 Locale locale = toLocale(launchData.getLaunchPresentationLocale());
                 ltiSession.setLocale(locale);
                 ltiSession.setLtiLaunchData(launchData);
