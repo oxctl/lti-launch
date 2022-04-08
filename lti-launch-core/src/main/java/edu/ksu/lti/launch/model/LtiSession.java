@@ -15,10 +15,14 @@ public class LtiSession {
     private String applicationName;
     private String initialViewPath;
     private String eid;
-    private String canvasCourseId;
-    private String canvasDomain;
     private Locale locale;
     private LtiLaunchData ltiLaunchData;
+    // Specific to Canvas
+    private String canvasCourseId;
+    private String canvasDomain;
+    // Specific to Moodle
+    private String moodleCourseId;
+    private String moodleDomain;
 
     public LtiSession(LtiLaunchData launchData) {
         Objects.requireNonNull(launchData, "launchData cannot be null");
@@ -84,5 +88,21 @@ public class LtiSession {
     public LtiLaunchData getLtiLaunchData() {
         return ltiLaunchData;
     }
-    
+
+    public void setMoodleCourseId(String moodleCourseId) {
+        this.moodleCourseId = moodleCourseId;
+    }
+
+    public String getMoodleCourseId() {
+        return moodleCourseId;
+    }
+
+    public void setMoodleDomain(String moodleDomain) {
+        this.moodleDomain = moodleDomain;
+    }
+
+    public String getMoodleDomain() {
+        return moodleDomain;
+    }
+
 }
